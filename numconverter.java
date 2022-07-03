@@ -72,7 +72,7 @@ public class numconverter {
                 // A Decimal Number
                 System.out.println("Decimal Version of Number is: ("+other_to_decimal(num,16)+") [base: 10]");
             }else{
-                System.out.println("Not a valid base or number or both.");
+                System.out.println("Not a valid base or number or both(atleast for this program).");
             }
             System.out.println();
         }
