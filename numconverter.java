@@ -6,7 +6,7 @@ public class numconverter {
             Scanner sc = new Scanner(System.in);
             // Declaring all the variables
             String num, hexalpha = "abcdef0123456789";
-            int base, lenofnum, sum_of_digits = 0;
+            long base, lenofnum, sum_of_digits = 0;
             boolean isint = true, isHex = false;
             /*Interface to accept the number and its base 
             and store it's value*/
@@ -14,20 +14,21 @@ public class numconverter {
             num= sc.next();
             System.out.print("Enter base of number(2,8,10,16): ");
             base=sc.nextInt();
+            System.out.println("Processing ...\n");
             //Finding the number of digits
             lenofnum = num.length();
             //Checking if base is valid
             if (base == 2 ||base == 8 ||base == 10 ||base == 16) {
-                //Checking if the number is an integer
+                //Checking if the number is an Long
                 for (int i = 0; i < num.length(); i++) {
                     try {
-                        Integer.parseInt(num.charAt(i)+"");
+                        Long.parseLong(num.charAt(i)+"");
                     } catch (Exception NumberFormatException) {
                         isint = false;
                     }
                     //Finding the sum of the digits of the number
                     if (isint==true) {
-                        sum_of_digits+=Integer.parseInt(num.charAt(i)+"");
+                        sum_of_digits+=Long.parseLong(num.charAt(i)+"");
                     }
                     // Checking if number is a valid Hexadecimal number
                     if (hexalpha.indexOf((num.charAt(i)+"").toLowerCase())!=-1) {
@@ -41,59 +42,60 @@ public class numconverter {
             //Checking if the number if a Binary number and converting it to
             if (base==2 && (sum_of_digits/lenofnum)<=1 && isint==true) {
                 // An Octal Number
-                System.out.println("Octal Digit is: ("+decimal_to_other(other_to_decimal(num,2),8)+") [base: 8]");
+                System.out.println("Octal Version of Number is: ("+decimal_to_other(other_to_decimal(num,2),8)+") [base: 8]");
                 // A Decimal number
-                System.out.println("Decimal Digit is: ("+other_to_decimal(num,2)+") [base: 10]");
+                System.out.println("Decimal Version of Number is: ("+other_to_decimal(num,2)+") [base: 10]");
                 // A Hexadecimal Number
-                System.out.println("Hexadecimal Digit is: ("+decimal_to_other(other_to_decimal(num,2),16)+") [base: 16]");
+                System.out.println("Hexadecimal Version of Number is: ("+decimal_to_other(other_to_decimal(num,2),16)+") [base: 16]");
             //Checking if the number if an Octal number and converting it to
             }else if (base==8 && (sum_of_digits/lenofnum)<=7 && isint==true) {
                 // A Binary Number
-                System.out.println("Binary Digit is: ("+decimal_to_other(other_to_decimal(num,8),2)+") [base: 2]");
+                System.out.println("Binary Version of Number is: ("+decimal_to_other(other_to_decimal(num,8),2)+") [base: 2]");
                 // A Decimal Number
-                System.out.println("Decimal Digit is: ("+other_to_decimal(num,8)+") [base: 10]");
-                // A Decimal Number
-                System.out.println("Hexadecimal Digit is: ("+decimal_to_other(other_to_decimal(num,8),16)+") [base: 16]");
+                System.out.println("Decimal Version of Number is: ("+other_to_decimal(num,8)+") [base: 10]");
+                // A Hexadecimal Number
+                System.out.println("Hexadecimal Version of Number is: ("+decimal_to_other(other_to_decimal(num,8),16)+") [base: 16]");
             //Checking if the number if a Decimal number and converting it to
             }else if (base==10 && (sum_of_digits/lenofnum)<=9 && isint==true) {
                 // A Binary Number
-                System.out.println("Binary Digit is: ("+decimal_to_other(num,2)+") [base: 2]");
+                System.out.println("Binary Version of Number is: ("+decimal_to_other(num,2)+") [base: 2]");
                 // An Octal Number
-                System.out.println("Octal Digit is: ("+decimal_to_other(num,8)+") [base: 8]");
+                System.out.println("Octal Version of Number is: ("+decimal_to_other(num,8)+") [base: 8]");
                 // A Hexadecimal Number
-                System.out.println("Hexadecimal Digit is: ("+decimal_to_other(num,16)+") [base: 16]");
+                System.out.println("Hexadecimal Version of Number is: ("+decimal_to_other(num,16)+") [base: 16]");
             //Checking if the number if a Hexadecimal number and converting it to
             }else if (base==16 && isHex==true) {
                 // A Binary Number
-                System.out.println("Binary Digit is: ("+decimal_to_other(other_to_decimal(num,16),2)+") [base: 2]");
+                System.out.println("Binary Version of Number is: ("+decimal_to_other(other_to_decimal(num,16),2)+") [base: 2]");
                 // An Octal Number
-                System.out.println("Octal Digit is: ("+decimal_to_other(other_to_decimal(num,16),8)+") [base: 8]");
+                System.out.println("Octal Version of Number is: ("+decimal_to_other(other_to_decimal(num,16),8)+") [base: 8]");
                 // A Decimal Number
-                System.out.println("Decimal Digit is: ("+other_to_decimal(num,16)+") [base: 10]");
+                System.out.println("Decimal Version of Number is: ("+other_to_decimal(num,16)+") [base: 10]");
             }else{
                 System.out.println("Not a valid base or number or both.");
             }
+            System.out.println();
         }
     }
     /* Function to convert a decimal number and convert it to any base like 
     Binary, Octal, Decimal and Hexadecimal
     */ 
-    public static String decimal_to_other(String number, int base_to_convert) {
+    public static String decimal_to_other(String number, long base_to_convert) {
         //Declaring all the important variables
         String answer = "",hexalpha, actual_answer="";
         hexalpha = "ABCDEF";
         char ch;
         //The main loop that will do two things
-        while (Integer.parseInt(number)!=0) {
+        while (Long.parseLong(number)!=0) {
             //1. Find the modulus of number
             String moduluser="";
-            moduluser = Integer.toString(Integer.parseInt(number)%base_to_convert);
+            moduluser = Long.toString(Long.parseLong(number)%base_to_convert);
             /* For Hexadecimal number:
              * Replaces the modulus with alphabets accordingly
              */
             if (base_to_convert==16) {
                 for (int i=0;i<hexalpha.length();i++) {
-                    if ((i+10)==Integer.parseInt(moduluser)) {
+                    if ((i+10)==Long.parseLong(moduluser)) {
                         moduluser = hexalpha.charAt(i)+"";
                         break;
                     }
@@ -101,7 +103,7 @@ public class numconverter {
             }
             //2. Add the modulus to the answer that is in reverse
             answer+=moduluser;
-            number = Integer.toString(Integer.parseInt(number)/base_to_convert);
+            number = Long.toString(Long.parseLong(number)/base_to_convert);
         }
         // Re-reversing the number to give the result
         for (int i=0; i<answer.length(); i++)
@@ -116,9 +118,9 @@ public class numconverter {
     Binary, Decimal, Octal and Hexadecimal
     and convert it to a decimal number
     */ 
-    public static String other_to_decimal(String num, int converter) {
+    public static String other_to_decimal(String num, long converter) {
         //Declaring all the important variables
-        int lenofnum,index_of_digit,answer;
+        long lenofnum,index_of_digit,answer;
         boolean isint=true;
         String hexalpha;
         hexalpha = "ABCDEF";
@@ -134,31 +136,31 @@ public class numconverter {
             if (converter==16) {
                 // Dividing the number into numbers and alphabets
                 try {
-                    Integer.parseInt(num.charAt(index_of_digit)+"");
+                    Long.parseLong(num.charAt((int)index_of_digit)+"");
                 } catch (Exception NumberFormatException) {
                     isint=false;
                 }
                 //Processing the alphabet part
                 if (isint==false) {
-                    if (hexalpha.indexOf((num.charAt(index_of_digit)+"").toUpperCase())!=-1) {
-                        answer+=((Integer.parseInt(hexalpha.indexOf((num.charAt(index_of_digit)+"").toUpperCase())+"")+10)*((int)(Math.pow(converter, lenofnum))));
+                    if (hexalpha.indexOf((num.charAt((int)index_of_digit)+"").toUpperCase())!=-1) {
+                        answer+=((Long.parseLong(hexalpha.indexOf((num.charAt((int)index_of_digit)+"").toUpperCase())+"")+10)*((long)(Math.pow(converter, lenofnum))));
                     } else {//Or displaying that the Hexadecimal number is invalid
                         System.out.println("Not a valid Hexadecimal number. ");
                         break;
                     }
-                // Processing the Integer part
+                // Processing the Long part
                 } else {
-                    answer+=(Integer.parseInt(num.charAt(index_of_digit)+"")*(int)(Math.pow(converter,lenofnum)));
+                    answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
                 }
             // Processing the numbers of other bases
             }else {
-                answer+=(Integer.parseInt(num.charAt(index_of_digit)+"")*(int)(Math.pow(converter,lenofnum)));
+                answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
             }
             // Incrementing and decrementing numbers
             index_of_digit++;
             lenofnum--;
         }
         // Returning the final answer
-        return Integer.toString(answer);
+        return Long.toString(answer);
     }
 }
