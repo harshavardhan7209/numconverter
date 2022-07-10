@@ -37,32 +37,45 @@ def other_to_decimal(num, converter):
     return z
     
 def main():
+    zrz = 0
+    hexalpha = "abcdef0123456789"
     num = input("Enter a number: ")
     base = int(input("Enter base of number(2,8,10,16): "))
     x=len(num)
     z=0
+    isf = True
     isHex = False
+    isint = True
     if base==2 or base==8 or base==10 or base==16:
         for i in range(len(num)):
-            if num[i]=='A'or num[i]=='a'or num[i]=='B'or num[i]=='b'or num[i]=='C'or num[i]=='c'or num[i]=='D'or num[i]=='d'or num[i]=='E'or num[i]=='e'or num[i]=='F'or num[i]=='f':
+            try:
+                int(num[i])
+            except ValueError:
+                isint = False
+            if isint==True:
+                z+=int(num[i])
+            try:
+                hexalpha.index(num[i])
+            except ValueError:
+                isHex = False
+                isf = False
+            if num[i] == "0":
+                zrz+=1
+            if isf==True:
                 isHex = True
-            if base!=16 and base!=2 and isHex==False:
-                z+=int((num)[i])
-            if base==2 and isHex==False:
-                if int(num[i]) == 0:
-                    x-=1
-                    continue
-                else:
-                    z+=int((num)[i])
-    if base==2 and (z/x)<=1 and isHex==False:
+            else:
+                isHex = False
+                break
+    x = x-zrz
+    if base==2 and (z/x)<=1 and isint==True:
         print("Octal Digit is: ("+str(decimal_to_other(other_to_decimal(num, 2), 8))+")8")
         print("Decimal digit is: ("+str(other_to_decimal(num, 2))+")10")
         print("Hexadecimal digit is: ("+str(decimal_to_other(other_to_decimal(num, 2), 16))+")16")
-    elif base==8 and int(z/len(num))<=7 and isHex==False:
+    elif base==8 and int(z/len(num))<=7 and isint==True:
         print("Binary Digit is: ("+str(decimal_to_other(other_to_decimal(num,8),2))+")2")
         print("Decimal Digit is: ("+str(other_to_decimal(num, 8))+")10")
         print("Hexadecimal Digit is: ("+str(decimal_to_other(other_to_decimal(num, 8), 16))+")16")
-    elif base==10 and z/x<=9 and isHex==False:
+    elif base==10 and z/x<=9 and isint==True:
         print("Binary digit is: (" + str(decimal_to_other(int(num), 2))+")2")
         print("Octal digit is: (" + str(decimal_to_other(int(num), 8))+")8")
         print("Hexadecimal digit is: (" + str(decimal_to_other(int(num), 16))+")16")
@@ -72,4 +85,18 @@ def main():
         print("Decimal digit is: ("+str(other_to_decimal(num,16))+")10")
     else:
         print("Not a valid base or number or both.")
+        if base!=2 and base!= 8 and base!=10 and base!=16:
+            idk = "base"
+        else:
+            idk = "number"
+        x = "Do you want to see results for your invalid " + idk + "?: "
+        stir = input(x)
+        if stir[0].lower()=="y":
+            print("\nThen Here you go: \n")
+            print("Binary digit: " + str(decimal_to_other(other_to_decimal(num, base), 2)))
+            print("Octal digit: " + str(decimal_to_other(other_to_decimal(num, base), 8)))
+            print("Decimal digit: " + str(other_to_decimal(num, base)))
+            print("Hexadecimal digit: " + str(decimal_to_other(other_to_decimal(num, base), 16)))
+        else: 
+            print("Ok, bye :(")
 main()
