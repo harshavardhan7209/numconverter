@@ -6,8 +6,8 @@ public class numconverter {
             Scanner sc = new Scanner(System.in);
             // Declaring all the variables
             String num, hexalpha = "abcdef0123456789";
-            long base, lenofnum, sum_of_digits = 0;
-            boolean isint = true, isHex = false;
+            int base;
+            boolean isint = true, isHex = false, isbin=true, isoct=true;
             /*Interface to accept the number and its base 
             and store it's value*/
             System.out.print("Enter a number: ");
@@ -16,19 +16,21 @@ public class numconverter {
             base=sc.nextInt();
             System.out.println("Processing ...\n");
             //Finding the number of digits
-            lenofnum = num.length();
             //Checking if base is valid
             if (base == 2 ||base == 8 ||base == 10 ||base == 16) {
                 //Checking if the number is an Long
                 for (int i = 0; i < num.length(); i++) {
                     try {
-                        Long.parseLong(num.charAt(i)+"");
+                        Double.parseDouble(num.charAt(i)+"");
                     } catch (Exception NumberFormatException) {
                         isint = false;
                     }
                     //Finding the sum of the digits of the number
                     if (isint==true) {
-                        sum_of_digits+=Long.parseLong(num.charAt(i)+"");
+                        if (Double.parseDouble(num.charAt(i)+"")>1)
+                        isbin=false;
+                        if (Double.parseDouble(num.charAt(i)+"")>7)
+                        isoct=false;
                     }
                     // Checking if number is a valid Hexadecimal number
                     if (hexalpha.indexOf((num.charAt(i)+"").toLowerCase())!=-1) {
@@ -40,7 +42,7 @@ public class numconverter {
                 }
             }
             //Checking if the number if a Binary number and converting it to
-            if (base==2 && (sum_of_digits/lenofnum)<=1 && isint==true) {
+            if (base==2 && isbin==true && isint==true) {
                 // An Octal Number
                 System.out.println("Octal Version of Number is: ("+decimal_to_other(other_to_decimal(num,2),8)+") [base: 8]");
                 // A Decimal number
@@ -48,7 +50,7 @@ public class numconverter {
                 // A Hexadecimal Number
                 System.out.println("Hexadecimal Version of Number is: ("+decimal_to_other(other_to_decimal(num,2),16)+") [base: 16]");
             //Checking if the number if an Octal number and converting it to
-            }else if (base==8 && (sum_of_digits/lenofnum)<=7 && isint==true) {
+            }else if (base==8 && isoct==true && isint==true) {
                 // A Binary Number
                 System.out.println("Binary Version of Number is: ("+decimal_to_other(other_to_decimal(num,8),2)+") [base: 2]");
                 // A Decimal Number
@@ -56,7 +58,7 @@ public class numconverter {
                 // A Hexadecimal Number
                 System.out.println("Hexadecimal Version of Number is: ("+decimal_to_other(other_to_decimal(num,8),16)+") [base: 16]");
             //Checking if the number if a Decimal number and converting it to
-            }else if (base==10 && (sum_of_digits/lenofnum)<=9 && isint==true) {
+            }else if (base==10 && isint==true) {
                 // A Binary Number
                 System.out.println("Binary Version of Number is: ("+decimal_to_other(num,2)+") [base: 2]");
                 // An Octal Number
@@ -82,8 +84,7 @@ public class numconverter {
     */ 
     public static String decimal_to_other(String number, long base_to_convert) {
         //Declaring all the important variables
-        String answer = "",hexalpha, actual_answer="";
-        hexalpha = "ABCDEF";
+        String answer = "", actual_answer="", hexalpha="ABCDEF";
         char ch;
         //The main loop that will do two things
         while (Long.parseLong(number)!=0) {
@@ -120,12 +121,9 @@ public class numconverter {
     */ 
     public static String other_to_decimal(String num, long converter) {
         //Declaring all the important variables
-        long lenofnum,index_of_digit,answer;
+        long lenofnum,index_of_digit=0,answer=0;
         boolean isint=true;
-        String hexalpha;
-        hexalpha = "ABCDEF";
-        index_of_digit=0;
-        answer=0;
+        String hexalpha = "ABCDEF";
         //Finds the number of digits of the number
         lenofnum = num.length()-1;
         /* The main loop for this function that does
@@ -142,20 +140,20 @@ public class numconverter {
                 }
                 //Processing the alphabet part
                 if (isint==false) {
-                    if (hexalpha.indexOf((num.charAt((int)index_of_digit)+"").toUpperCase())!=-1) {
+                    if (hexalpha.indexOf((num.charAt((int)index_of_digit)+"").toUpperCase())!=-1)
+                    {
                         answer+=((Long.parseLong(hexalpha.indexOf((num.charAt((int)index_of_digit)+"").toUpperCase())+"")+10)*((long)(Math.pow(converter, lenofnum))));
-                    } else {//Or displaying that the Hexadecimal number is invalid
+                    }else {//Or displaying that the Hexadecimal number is invalid
                         System.out.println("Not a valid Hexadecimal number. ");
                         break;
                     }
                 // Processing the Long part
-                } else {
-                    answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
-                }
+                }else
+                 answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
             // Processing the numbers of other bases
-            }else {
-                answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
-            }
+            }else
+             answer+=(Long.parseLong(num.charAt((int)index_of_digit)+"")*(long)(Math.pow(converter,lenofnum)));
+
             // Incrementing and decrementing numbers
             index_of_digit++;
             lenofnum--;
